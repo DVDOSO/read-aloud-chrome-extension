@@ -1,0 +1,32 @@
+{
+    "name": "Read Aloud Extension",
+    "description": "Highlight text and read it aloud. Can control speed and volume.",
+    "version": "1.0",
+    "manifest_version": 3,
+    "permissions": [
+        "contextMenus",
+        "activeTab",
+        "scripting"
+    ],
+    "host_permissions": [
+        "<all_urls>"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "action": {
+        "default_title": "Read Aloud Extension"
+    },
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["content-script.js"]
+        }
+    ],
+    "web_accessible_resources": [
+    {
+      "resources": ["ui.html", "ui.css"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+#readAloudContainer {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 250px;
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    z-index: 999999;
+    font-family: sans-serif;
+    box-shadow: 0 0 8px rgba(0,0,0,0.3);
+  }
+  
+  #readAloudHeader {
+    background: #eee;
+    padding: 8px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  #readAloudControls {
+    padding: 10px;
+  }
+  
+  #readAloudCloseBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  label {
+    margin-right: 5px;
+  }
+  
+  input[type="range"] {
+    width: 100px;
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+  
