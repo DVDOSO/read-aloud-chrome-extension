@@ -1,22 +1,35 @@
-// context menu
 chrome.runtime.onInstalled.addListener(() => {
     chrome.contextMenus.create({
-        id: "readAloudContextMenu",
-        title: "Read Aloud Selected Text",
-        contexts: ["selection"]
+      id: "readAloudSelection",
+      title: "Read Aloud Selected Text",
+      contexts: ["selection"]
     });
-});
-
-// handle click
-chrome.contextMenus.onClicked.addListener((info, tab) => {
-    if (info.menuItemId === "readAloudContextMenu") {
-      // info.selectionText contains the selected text
+  
+    chrome.contextMenus.create({
+      id: "toggleReadAloudUI",
+      title: "Show Read Aloud UI",
+      contexts: ["all"]
+    });
+  });
+  
+  chrome.contextMenus.onClicked.addListener((info, tab) => {
+    if (info.menuItemId === "readAloudSelection") {
       if (info.selectionText) {
-        // Send a message to content script to read the selected text
         chrome.tabs.sendMessage(tab.id, {
           action: "readAloud",
           text: info.selectionText
         });
       }
     }
+    else if (info.menuItemId === "toggleReadAloudUI") {
+      chrome.tabs.sendMessage(tab.id, {
+        action: "toggleUI"
+      });
+    }
+  });
+  
+  chrome.action.onClicked.addListener((tab) => {
+    chrome.tabs.sendMessage(tab.id, {
+      action: "toggleUI"
+    });
   });

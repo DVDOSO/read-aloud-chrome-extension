@@ -2,7 +2,7 @@
     position: fixed;
     top: 20px;
     right: 20px;
-    width: 250px;
+    width: 260px;
     background: #f9f9f9;
     border: 1px solid #ccc;
     z-index: 999999;
@@ -22,10 +22,9 @@
     padding: 10px;
   }
   
-  #readAloudCloseBtn {
-    background: none;
-    border: none;
-    cursor: pointer;
+  button {
+    margin-right: 5px;
+    margin-top: 5px;
   }
   
   label {

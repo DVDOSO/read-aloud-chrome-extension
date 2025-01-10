@@ -1,18 +1,30 @@
-console.log("Script is loaded")
-
 let utterance = null;
 let isSpeaking = false;
+let uiInjected = false;
 
-(function init() {
-  injectUI();
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.action === "readAloud") {
+    readText(request.text);
+  }
+  else if (request.action === "toggleUI") {
+    toggleUI();
+  }
+});
 
-  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (request.action === "readAloud") {
-      readText(request.text);
-      console.log("Script is loaded")
+function toggleUI() {
+  const container = document.getElementById("readAloudContainer");
+
+  if (!uiInjected || !container) {
+    injectUI();
+    uiInjected = true;
+  } else {
+    if (container.style.display === "none" || container.style.display === "") {
+      container.style.display = "block";
+    } else {
+      container.style.display = "none";
     }
-  });
-})();
+  }
+}
 
 function injectUI() {
   fetch(chrome.runtime.getURL("ui.html"))
@@ -28,7 +40,8 @@ function injectUI() {
       document.head.appendChild(link);
 
       setupControls();
-    });
+    })
+    .catch(err => console.error("Error injecting UI:", err));
 }
 
 function setupControls() {
@@ -38,68 +51,62 @@ function setupControls() {
   const stopBtn = document.getElementById("readAloudStopBtn");
   const rateRange = document.getElementById("rateRange");
   const volumeRange = document.getElementById("volumeRange");
+  const rateValueLabel = document.getElementById("rateValueLabel");
+  const volumeValueLabel = document.getElementById("volumeValueLabel");
 
   closeBtn.addEventListener("click", () => {
     const container = document.getElementById("readAloudContainer");
     container.style.display = "none";
   });
 
-  // Play: If we have a current utterance, resume or speak
   playBtn.addEventListener("click", () => {
     if (!utterance) {
-      // If no utterance is set, read any selected text
       const selectedText = window.getSelection().toString();
       if (selectedText) {
         readText(selectedText);
       }
     } else {
       if (isSpeaking) {
-        // If it's paused, resume
         speechSynthesis.resume();
       } else {
-        // If it's a new utterance
         speechSynthesis.speak(utterance);
       }
     }
   });
 
-  // Pause
   pauseBtn.addEventListener("click", () => {
     speechSynthesis.pause();
   });
 
-  // Stop
   stopBtn.addEventListener("click", () => {
     speechSynthesis.cancel();
     utterance = null;
     isSpeaking = false;
   });
 
-  // Update rate and volume on input changes
   rateRange.addEventListener("input", () => {
     if (utterance) {
       utterance.rate = parseFloat(rateRange.value);
     }
+    rateValueLabel.textContent = rateRange.value;
   });
   volumeRange.addEventListener("input", () => {
     if (utterance) {
       utterance.volume = parseFloat(volumeRange.value);
     }
+    volumeValueLabel.textContent = volumeRange.value;
   });
 }
 
 function readText(text) {
-  // Cancel any ongoing speech
   speechSynthesis.cancel();
 
-  // Create a new utterance
   utterance = new SpeechSynthesisUtterance(text);
 
-  // Set initial rate and volume from the UI
   const rateRange = document.getElementById("rateRange");
   const volumeRange = document.getElementById("volumeRange");
-  utterance.rate = parseFloat(rateRange.value);
-  utterance.volume = parseFloat(volumeRange.value);
+  if (rateRange) utterance.rate = parseFloat(rateRange.value);
+  if (volumeRange) utterance.volume = parseFloat(volumeRange.value);
 
   utterance.onstart = () => {
     isSpeaking = true;
@@ -112,6 +119,5 @@ function readText(text) {
     console.error("SpeechSynthesisUtterance.onerror", e);
   };
 
-  // Speak
   speechSynthesis.speak(utterance);
 }
