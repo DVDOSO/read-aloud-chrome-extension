@@ -5,8 +5,7 @@ let uiInjected = false;
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "readAloud") {
     readText(request.text);
-  }
-  else if (request.action === "toggleUI") {
+  } else if (request.action === "toggleUI") {
     toggleUI();
   }
 });
@@ -28,8 +27,8 @@ function toggleUI() {
 
 function injectUI() {
   fetch(chrome.runtime.getURL("ui.html"))
-    .then(response => response.text())
-    .then(html => {
+    .then((response) => response.text())
+    .then((html) => {
       const tempDiv = document.createElement("div");
       tempDiv.innerHTML = html;
       document.body.appendChild(tempDiv.firstChild);
@@ -41,7 +40,7 @@ function injectUI() {
 
       setupControls();
     })
-    .catch(err => console.error("Error injecting UI:", err));
+    .catch((err) => console.error("Error injecting UI:", err));
 }
 
 function setupControls() {
@@ -92,7 +91,7 @@ function setupControls() {
   });
   volumeRange.addEventListener("input", () => {
     if (utterance) {
-      utterance.volume = parseFloat(volumeRange.value);
+      utterance.volume = parseFloat(volumeRange.value) / 100;
     }
     volumeValueLabel.textContent = volumeRange.value;
   });
