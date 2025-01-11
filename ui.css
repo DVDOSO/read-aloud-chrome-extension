@@ -12,6 +12,8 @@
   opacity: 0.7;
   font-family: Tahoma, sans-serif;
   transition: ease 0.3s;
+  font-size: 15px;
+  color: white;
 }
 
 #readAloudContainer:hover {
@@ -41,20 +43,20 @@
   text-align: center;
 }
 
-button {
+.readAloudButton {
   margin: 5px;
   color: white;
   background-color: rgb(93, 94, 94);
   border: 1px solid white;
 }
 
-button:not(#readAloudCloseBtn) {
+.readAloudButton:not(#readAloudCloseBtn) {
   padding: 5px;
   border-radius: 10px;
   transition: ease 0.3s;
 }
 
-button:not(#readAloudCloseBtn):hover {
+.readAloudButton:not(#readAloudCloseBtn):hover {
   background-color: rgb(33, 33, 33);
 }
 
@@ -69,17 +71,13 @@ button:not(#readAloudCloseBtn):hover {
   color: rgb(33, 33, 33);
 }
 
-label {
+.readAloundLabel {
   margin-right: 5px;
   color: white;
 }
 
-input[type="range"] {
+.readAloudSlider[type="range"] {
   width: 100px;
   vertical-align: middle;
   margin-right: 8px;
-}
-
-span {
-  color: white;
 }

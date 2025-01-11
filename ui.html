@@ -1,11 +1,12 @@
 <div id="readAloudContainer">
   <div id="readAloudHeader">
     <span>Read Aloud</span>
-    <button id="readAloudCloseBtn" title="Close UI">x</button>
+    <button class="readAloudButton" id="readAloudCloseBtn" title="Close UI">x</button>
   </div>
   <div id="readAloudControls">
-      <label for="rateRange">Speed:</label>
+      <label class="readAloundLabel" for="rateRange">Speed:</label>
       <input
+        class="readAloudSlider"
         type="range"
         id="rateRange"
         min="0.5"
@@ -14,8 +15,9 @@
         value="1"
       />
       <span id="rateValueLabel">1.0</span>
-      <label for="volumeRange">Volume:</label>
+      <label class="readAloundLabel" for="volumeRange">Volume:</label>
       <input
+        class="readAloudSlider"
         type="range"
         id="volumeRange"
         min="0"
@@ -26,8 +28,8 @@
       <span id="volumeValueLabel">100</span>
   </div>
   <div class="buttons">
-       <button id="readAloudPlayBtn">Play</button>
-      <button id="readAloudPauseBtn">Pause</button>
-      <button id="readAloudStopBtn">Stop</button>
+       <button class="readAloudButton" id="readAloudPlayBtn">Play</button>
+      <button class="readAloudButton" id="readAloudPauseBtn">Pause</button>
+      <button class="readAloudButton" id="readAloudStopBtn">Stop</button>
   </div>
 </div>
